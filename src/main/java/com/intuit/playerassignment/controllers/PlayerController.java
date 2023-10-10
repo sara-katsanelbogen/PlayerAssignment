@@ -50,6 +50,7 @@ public class PlayerController {
         return ResponseEntity.ok(player);
     }
 
+//    Additional EP for reloading data from the CSV file.
     @RequestMapping(method = RequestMethod.GET, value = "/players/reload")
     public ResponseEntity<?> reloadData() {
         try {

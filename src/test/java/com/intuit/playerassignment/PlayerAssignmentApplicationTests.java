@@ -26,7 +26,7 @@ public class PlayerAssignmentApplicationTests {
     }
 
     @Test
-    public void igetAllPlayerseTest() {
+    public void getAllPlayersTest() {
         PlayerController playerController = new PlayerController();
         List<Player> players = (List<Player>) playerController.getPlayers().getBody();
         Assert.assertEquals(players.size(), 19370);

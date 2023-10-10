@@ -14,7 +14,7 @@ public class PlayersLoader {
     private final String CSV_FILE_PATH = "./src/main/resources/player.csv";
     private static PlayersLoader instance;
     private PlayerMapper playerMapper;
-    private Map<String, Player> playerID2Player;
+    private Map<String, Player> playerID2PlayerMap; //use map for getting a specific player in O(1).
     private boolean isDataLoadingFailed;
 
     private PlayersLoader() {
@@ -35,7 +35,7 @@ public class PlayersLoader {
     }
 
     public void loadPlayers() {
-        playerID2Player = new HashMap<>();
+        playerID2PlayerMap = new HashMap<>();
         try (CSVReader reader = new CSVReader(new FileReader(CSV_FILE_PATH))) {
             playerMapper = new PlayerMapper(getHeaders(CSV_FILE_PATH));
             List<String[]> rows = reader.readAll();
@@ -52,8 +52,8 @@ public class PlayersLoader {
 
     private boolean addPlayer(String[] playerData) {
         try {
-            Player player = playerMapper.getPlayerFromMapper(playerData);
-            playerID2Player.put(player.getPlayerID(), player);
+            Player player = playerMapper.getPlayerFromMapper(playerData); //use a mapper for converting a String[] to a Player type;
+            playerID2PlayerMap.put(player.getPlayerID(), player);
         } catch (IOException e) {
             isDataLoadingFailed = true;
             return false;
@@ -62,7 +62,7 @@ public class PlayersLoader {
     }
 
     public Map<String, Player> getPlayers() {
-        return playerID2Player;
+        return playerID2PlayerMap;
     }
 
     public boolean isDataLoadingFailed() { return isDataLoadingFailed; }
